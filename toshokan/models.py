@@ -1,13 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
-# class Libro(models.Model):
-#     titulo = models.CharField(max_length=100) 
-#     tipo = models.CharField(max_length=100)
-#     capitulo = models.CharField(max_length=100)
-#     publicacion = models.DateField()
-#     estado = models.CharField(max_length=100)
-    
 class User(AbstractUser):
     nombre = models.CharField(max_length=100)
 #   perfil = models.ImageField(upload_to='fotos_de_perfil/', blank=True, null=True)
