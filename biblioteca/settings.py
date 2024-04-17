@@ -75,8 +75,12 @@ WSGI_APPLICATION = 'biblioteca.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Usamos lo instalado con psycopg2-binary
+        'NAME': 'toshokan', # nombre de la base de datos
+        'USER': 'postgres', #Por defecto o usuario creado personalmente
+        'PASSWORD': 'root', #Contraseña que puso al instalar postgresql... o otro para su usuario personal
+        'HOST': 'localhost',
+        'PORT': '', #Vacio por defecto o 5432, o configuración de puerto específica.
     }
 }
 
