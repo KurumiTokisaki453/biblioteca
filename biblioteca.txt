@@ -19,7 +19,6 @@ class Usuario(models.Model):
     creacion = models.DateField(auto_now_add=True, blank=True, null=True)
     def __str__(self):
         return f"{self.nombre}"
-
 class Autor(models.Model):
     nombre = models.CharField(max_length=100)
     apellido = models.CharField(max_length=100)
@@ -27,7 +26,6 @@ class Autor(models.Model):
     perfil = models.ImageField(upload_to='autores/%Y/%m/%d/', blank=True, null=True)
     def __str__(self):
         return f"{self.nombre} {self.apellido}"
-
 class Libro(models.Model):
     titulo = models.CharField(max_length=100) 
     perfil = models.ImageField(upload_to='libros/%Y/%m/%d/', blank=True, null=True)
@@ -38,29 +36,24 @@ class Libro(models.Model):
     estado = models.CharField(max_length=100, blank=True, null=True)
     def __str__(self):
         return self.titulo
-
 class Tipo(models.Model):
     nombre = models.CharField(max_length=100)
     def __str__(self):
         return f"{self.nombre}"
-    
 class Librotipo(models.Model):
     libro = models.ForeignKey(Libro, on_delete=models.CASCADE)
     tipo = models.ForeignKey(Tipo, on_delete=models.CASCADE)
     def __str__(self):
         return self.libro.titulo
- 
 class Genero(models.Model):
     nombre = models.CharField(max_length=100)
     def __str__(self):
         return self.nombre
-
 class LibroGenero(models.Model):
     libro = models.ForeignKey(Libro, on_delete=models.CASCADE)
     genero = models.ForeignKey(Genero, on_delete=models.CASCADE)
     def __str__(self):
       return f"{self.libro.titulo} {self.genero.nombre}"
-
 class Puntaje(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)  # Conecta al usuario que hizo la calificación
     libro = models.ForeignKey(Libro, on_delete=models.CASCADE)    # Conecta al libro que fue calificado
@@ -68,17 +61,51 @@ class Puntaje(models.Model):
     fecha_calificacion = models.DateTimeField(auto_now_add=True)  # Fecha en que se realizó la calificación
     def __str__(self):
         return f'{self.calificacion} estrellas'
-
 class Nombre(models.Model):
     libro = models.ForeignKey(Libro, on_delete=models.CASCADE)
     nombre = models.CharField(max_length=100, blank=True)
     descripcion = models.TextField(max_length=100, blank=True, null=True)
     def __str__(self):
         return f"Nombres del libro {self.nombre}"
-
 class LibroAutor(models.Model):
     libro = models.ForeignKey(Libro, on_delete=models.CASCADE)
     autor = models.ForeignKey(Autor, on_delete=models.CASCADE)
     def __str__(self):
         return f"{self.libro.titulo} - {self.autor.nombre}"
 
+
+Configuración Settings.py:
+DATABASES = {   # Base de datos postgresql
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Usamos lo instalado con psycopg2-binary
+        'NAME': 'toshokan', # nombre de la base de datos
+        'USER': 'postgres', #Por defecto o usuario creado personalmente
+        'PASSWORD': 'root', #Contraseña que puso al instalar postgresql... o otro para su usuario personal
+        'HOST': 'localhost',
+        'PORT': '', #Vacio por defecto o 5432, o configuración de puerto específica.
+    }
+}
+MIDDLEWARE = [  # Agregar corhearder en middleware antes de commonmiddleware
+  'corsheaders.middleware.CorsMiddleware', 
+ #'django.middleware.common.CommonMiddleware',]
+CORS_ALLOWED_ORIGINS = [        ## Autorizar conección con corsheader?
+    # "http://localhost:5173", # Link por defecto de React (Vite), descomentar en el paso 30
+    # "https://localhost:8000", # Link por defecto de django.
+    # "https://127.0.0.1:9000",
+]
+INSTALLED_APPS = [      ## Agregar instalaciones y la startapp creada
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'corsheaders',
+    'rest_framework',
+	'coreapi', # es biblioteca de Python e interactúa con APIs RESTful
+		#incluir preferentemente encima de {startapp}
+    '{startapp}' #ejm: tasks,tareas,etc.
+]
+REST_FRAMEWORK = {      ## Agregar al final de settins como rest_framework
+		"DEFAULT_SCHEMA_CLASS" : 'rest_framework.schemas.coreapi.AutoSchema',
+}

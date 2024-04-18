@@ -45,15 +45,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'corsheaders',
-    # 'rest_framework',
-	# 'coreapi',
+    'corsheaders',
+    'rest_framework',
+	'coreapi',
     'toshokandesu',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware', 
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -137,3 +138,13 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CORS_ALLOWED_ORIGINS = [        ## Autorizar conección con corsheader?
+    # "http://localhost:5173", # Link por defecto de React (Vite), descomentar en el paso 30
+    # "https://localhost:8000", # Link por defecto de django.
+    # "https://127.0.0.1:9000",
+]
+    
+REST_FRAMEWORK = {      ## Agregar al final de settins como rest_framework
+		"DEFAULT_SCHEMA_CLASS" : 'rest_framework.schemas.coreapi.AutoSchema',
+	}

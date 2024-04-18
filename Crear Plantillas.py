@@ -3,7 +3,7 @@ import random as rd
 # nombreApp = input("Ingresa el nombre de la app: ")
 nombreApp = "toshokandesu"
 nombre_projecto = "biblioteca"
-virtualvenvN=  "toshoven"
+virtualvenvN=  "toshovenv"
 
 lineas_con_texto = []
 texto_minusculas = []
@@ -70,8 +70,7 @@ def d_serializerpy(lista_modelos):
 from rest_framework import serializers
 from .models import *""")
   for texto in lista_modelos:
-    print(f"""
-class {texto}Serializer(serializers.ModelSerializer):
+    print(f"""class {texto}Serializer(serializers.ModelSerializer):
     class Meta:
         model = {texto}
         fields = '__all__'
@@ -107,7 +106,8 @@ from {nombreApp} import views""")
   print("\nurlpatterns = [")
   for i in range(len(lista_mayuscula)):
     textominus=lista_minuscula[i]
-    print(f"""    path("v{i+1}-{textominus}/", include({textominus}.urls)),""")
+    ou = f"0{i+1}" if i < 9 else f"{i+1}"
+    print(f"""    path("v{ou}-{textominus}/", include({textominus}.urls)),""")
     contador+=1
   print(f"""    path("docs/", include_docs_urls(title="{nombreApp} API")),
 ]""")
@@ -165,9 +165,8 @@ python -m venv {nombre}
   print("pip install djangorestframework")
   print("pip install django-cors-headers")
   print("pip install coreapi")
-  print("pip install pyllow")
-
-  
+  print("pip install pyllow") # Agregar imágenes a mis models.py
+  print("pip install --upgrade setuptools") ## para poblemas de pkgresources (exceptions django-main-therad) 
   
 
 a_lista_tablas_models("") # 'print' de entreda para imprimir
