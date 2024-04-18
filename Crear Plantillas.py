@@ -165,6 +165,7 @@ python -m venv {nombre}
   print("pip install djangorestframework")
   print("pip install django-cors-headers")
   print("pip install coreapi")
+  print("pip install pyllow")
 
   
   
