@@ -1,10 +1,26 @@
 import Kurumi from "../img/tokisaki.jpg"
 import Decimal from 'decimal.js';
 import {DecimalStart, Start, StartVoid } from "../assets/start.jsx"
+import { useEffect, useState } from 'react'
+import { getAllData, getOneData } from '../api/api_toshokan';
 
 import { calcularStart } from "../Componentes/calificacion.jsx"
 // const Dwecimal = require('decimal.js');
 export function Portal() {
+
+  const [Libroid, setLibroid] = useState([]);
+  useEffect(() => {
+    async function cargarLista() {
+      try {
+        const respuesta = await getOneData(3, 2);
+        const lista = respuesta.data;
+        setLibroid(lista);
+      } catch (error) {
+        console.error("Error al cargar la data: ", error)
+      }
+    }
+    cargarLista();
+  }, [])
   // Diccionario para buscar estrellas
   const Sestrellas = { 1: 1, 2: 2, 3: 3, 4: 4, 5: 5 }
   // start = Objeto decimal por Decimal(), calcular = Decimal primitivo
@@ -40,9 +56,10 @@ export function Portal() {
       <div key={index}><StartVoid/></div> ));
   }
 
-
+  let imgur01 = "https://i.imgur.com/uQe1MyF.jpeg"
   // Crear un array de longitud 'entrada' y llenarlo con elementos <div>
-
+  // lista = [ titulo, perfil, sinopsis, capitulo, publicacion, ul_publicacion, estado]
+  console.log(typeof(Libroid.publicacion), Libroid.publicacion, "Libro Publicación")
   return (
 <div className="text-white">
 
@@ -50,7 +67,7 @@ export function Portal() {
     <div className="bg-red-500 border-4 border-fuchsia-500/75 rounded-md">
       
       <div className="px-2 py-1 text-green-200">
-        <span className={titulo}>Date a Bullet Novela Ligera en Español</span>
+        <span className={titulo}>Date a Bullet Novela Ligera en Español{Libroid.titulo} </span>
       </div>
 
       <div className="flex flex-row space-x-6 content-center bg-gray-800 p-6">
@@ -59,12 +76,13 @@ export function Portal() {
         </div>
         <div className="basis-1/3 bg-emerald-300"> {/* Características */}
           <span>Tipo:</span> <span>Novela Ligera</span><br />
-          <span>Volúmenes:</span> <span>8/8</span><br />
+          <span>Capítulo:</span> <span>{Libroid.capitulo}</span><br />
           <span>Escritor:</span> <span>Yuichiro Higashide</span><br />
           <span>Ilustrador:</span> <span>NOCO</span><br />
           <span>Géneros:</span> <span>Mecha Sobrenatural Acción Escolar</span><br />
-          <span>Fecha de publicación:</span> <span>01-01-2024</span><br />
-          <span>Estado:</span> <span>Finalizado</span><br />
+          <span>Fecha de publicación:</span> <span>{Libroid.publicacion}</span><br />
+          <span>Última de publicación:</span> <span>{Libroid.ul_publicacion}</span><br />
+          <span>Estado:</span> <span>{Libroid.estado}</span><br />
           <span>Nombre Inglés:</span> <span>Date a Bullet</span><br />
           <span>Nombre Origen:</span> <span>デート・ア・ライブ</span><br />
           <span>Enlace Original:</span> <span>link sss</span><br />
@@ -75,7 +93,7 @@ export function Portal() {
         </div>
         <div className="basis-1/3 bg-emerald-600"> {/* Sinopsis */}
           <span>Sinopsis:</span>
-          <p >Esta es una historia protagonizada por aquella chica que es conocida por todos como el peor espíritu, Kurumi Tokisaki. En cierta ocasión, se encontró con una joven con amnesia que la había llevado ante otras tantas chicas conocidas como Quasí-espíritus, las cuales estaban dispuestas a matarse entre sí. A partir de ahí, empieza la historia de Kurumi que no había sido contada hasta ahora.</p>
+          <p > {Libroid.sinopsis} Esta es una historia protagonizada por aquella chica que es conocida por todos como el peor espíritu, Kurumi Tokisaki. En cierta ocasión, se encontró con una joven con amnesia que la había llevado ante otras tantas chicas conocidas como Quasí-espíritus, las cuales estaban dispuestas a matarse entre sí. A partir de ahí, empieza la historia de Kurumi que no había sido contada hasta ahora.</p>
         </div>
       </div>
       
@@ -96,7 +114,7 @@ export function Portal() {
           <div className="min-w-52 max-w-64"> <img className="box-border bg-green-500" src={img01} alt="Kurumi Tokisaki 01" /> </div>
           <div className="min-w-52 max-w-64"> <img className="box-border bg-green-500" src={img01} alt="Kurumi Tokisaki 01" /> </div>
           <div className="min-w-52 max-w-64"> <img className="box-border bg-green-500" src={img01} alt="Kurumi Tokisaki 01" /> </div>
-          <div className="min-w-52 max-w-64"> <img className="box-border bg-green-500" src={img01} alt="Kurumi Tokisaki 01" /> </div>
+          <div className="min-w-52 max-w-64"> <img className="box-border bg-green-500" src={imgur01} alt="Kurumi Tokisaki 01" /> </div>
           
         </div>
       </div>

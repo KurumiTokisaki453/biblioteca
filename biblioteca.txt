@@ -109,3 +109,15 @@ INSTALLED_APPS = [      ## Agregar instalaciones y la startapp creada
 REST_FRAMEWORK = {      ## Agregar al final de settins como rest_framework
 		"DEFAULT_SCHEMA_CLASS" : 'rest_framework.schemas.coreapi.AutoSchema',
 }
+
+
+
+Delete{
+    Datos{
+        Nombre: OVERLORD (オーバーロード),
+        Escrito: Maruyama Kugane (丸山くがね)
+        Ilustrado: So-Bin
+        ISBN 10: 0316272248
+        ISBN 13: 9780316272247
+    }
+}

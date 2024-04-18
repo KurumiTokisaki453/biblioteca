@@ -25,7 +25,11 @@ SECRET_KEY = 'django-insecure-mh0mc0ac_r+^a66-)*=!k7f@hz=8-27*fq6f(%uajy*+3_=2^6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    # "127.0.0.1",
+    # "192.168.1.10",
+    # 'http://192.168.1.10:8000',   
+]
 
 
 # Application definition
@@ -140,7 +144,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = [        ## Autorizar conección con corsheader?
-    # "http://localhost:5173", # Link por defecto de React (Vite), descomentar en el paso 30
+    "http://localhost:5173", # Link por defecto de React (Vite), descomentar en el paso 30
     # "https://localhost:8000", # Link por defecto de django.
     # "https://127.0.0.1:9000",
 ]
