@@ -4,7 +4,7 @@ from datetime import date, datetime
 
 class Usuario(models.Model):
     nombre = models.CharField(max_length=100)
-    perfil = models.ImageField(upload_to='usuarios/%Y/%m/%d/', blank=True, null=True)
+    perfil = models.TextField(blank=True, null=True)    ##Imagen
     usuario = models.CharField(max_length=100)
     password = models.CharField(max_length=100)
     creacion = models.DateField(auto_now_add=True, blank=True, null=True)
@@ -13,22 +13,26 @@ class Usuario(models.Model):
 
 class Autor(models.Model):
     nombre = models.CharField(max_length=100)
-    apellido = models.CharField(max_length=100)
+    apellido = models.CharField(max_length=100, blank=True,null=True)
     nacimiento = models.DateField(blank=True, null=True)
-    perfil = models.ImageField(upload_to='autores/%Y/%m/%d/', blank=True, null=True)
+    perfil = models.TextField(blank=True, null=True)    ##Imagen
     def __str__(self):
-        return f"{self.nombre} {self.apellido}"
+        return f"{self.nombre}"
 
 class Libro(models.Model):
-    titulo = models.CharField(max_length=100) 
-    perfil = models.ImageField(upload_to='libros/%Y/%m/%d/', blank=True, null=True)
+    titulo = models.CharField(max_length=100)
+    perfil = models.TextField(blank=True, null=True)    ##Imagen
     sinopsis = models.TextField(blank=True, null=True)
-    capitulo = models.CharField(max_length=100, blank=True, null=True)
     publicacion = models.DateField(default=date.today)
-    ul_publicacion = models.DateField(default=datetime.today)
     estado = models.CharField(max_length=100, blank=True, null=True)
+    idioma = models.CharField(max_length=75, blank=True, null=True)
     def __str__(self):
         return self.titulo
+
+class LibroCapitulo(models.Model):
+    libro = models.ForeignKey(Libro, on_delete=models.CASCADE)
+    capitulo = models.FloatField(blank=True, null=True)
+    volumen = models.FloatField(blank=True, null=True)
 
 class Tipo(models.Model):
     nombre = models.CharField(max_length=100)
@@ -68,6 +72,7 @@ class Nombre(models.Model):
         return f"Nombres del libro {self.nombre}"
 
 class LibroAutor(models.Model):
+    descripcion = models.CharField(blank=True, null=True) # Ejemplo: Escritor, Ilustrador, vocal, etc.
     libro = models.ForeignKey(Libro, on_delete=models.CASCADE)
     autor = models.ForeignKey(Autor, on_delete=models.CASCADE)
     def __str__(self):

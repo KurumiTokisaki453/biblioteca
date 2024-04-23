@@ -5,6 +5,7 @@ import { Libro } from './pages/libro'
 import { Testing } from './pages/testing'
 import './App.css'
 import { Portal } from "./pages/portada";
+import { FPortada } from "./pages/FPortada";
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
           <Route path='/' element={<Navigate to="/home"/>} />
           <Route path="/home" element={<Libro/>} />
           <Route path='/portal' element={<Portal />} />
+          <Route path='/fportada' element={<FPortada/>} />
           <Route path="/testing" element={<Testing />} />
           {/* <Route path='/2' element={<NewPage/>} /> */}
         </Routes>

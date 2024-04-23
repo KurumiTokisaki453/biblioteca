@@ -1,8 +1,10 @@
 import Kurumi from "../img/tokisaki.jpg"
 import Decimal from 'decimal.js';
 import {DecimalStart, Start, StartVoid } from "../assets/start.jsx"
-import { useEffect, useState } from 'react'
-import { getAllData, getOneData } from '../api/api_toshokan';
+import { useEffect, useState, version } from 'react'
+import { getAllData, getOneData, createData, updateData, deleteData } from '../api/api_toshokan';
+import { useForm } from 'react-hook-form'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import { calcularStart } from "../Componentes/calificacion.jsx"
 // const Dwecimal = require('decimal.js');
@@ -21,9 +23,52 @@ const VERSIONES = {
   12: 12, // "v12-generofilter",
   13: 13, // "v13-nombresfilter",
 }
-export function Portal() {
-  let tabla = 3;
-  let libroKey = 4;
+export function FPortada() {
+  const {
+    register,
+    handleSubmit,
+    formState : {errors},
+    setValue
+  } = useForm();
+  const navegar = useNavigate()
+  const paramet = useParams()
+
+  const onSubmit = handleSubmit(async data => {
+    if (paramet.id) {
+      await updateData(VERSIONES[3], paramet.id, data);
+    } else {
+      await createData(VERSIONES[3], data);
+    }
+    navegar("/add");
+  })
+  const [imageUrl, setImageUrl] = useState('');
+  useEffect(() => {
+    async function loadGetLibro() {
+      // if (true){
+        const {data : {titulo, perfil, sinopsis, publicacion, estado, idioma},} = await getOneData(VERSIONES[3], 4); // Contrario a 4 es paramet.id
+        setValue('titulo', titulo)
+        setValue('perfil', perfil)
+        setImageUrl(perfil)
+        setValue('sinopsis', sinopsis)
+        setValue('publicacion',publicacion)
+        setValue('estado',estado)
+        setValue('idioma',idioma);
+        // const data = await getOneData(VERSIONES[3], 4);
+      }
+      loadGetLibro();
+    async function loadGetTipo() {
+      const {data: {libro, tipo}} = await getOneData(VERSIONES[5], 1);
+      setValue('tipo_libro', libro)
+      setValue('tipo_tipo', tipo)
+      console.log('Contenido del libro: ', {libro, tipo})
+    }
+    loadGetTipo();
+  }, [])
+    
+    // console.log(useForm());
+
+    // console.log('Sinopsis:', sinopsis);
+
   const [Nombre, setNombre] = useState([]);
   useEffect(() => {
     async function cargarNombre() {
@@ -69,24 +114,9 @@ export function Portal() {
     cargarGenero();
   }, [])
 
-  const [Libroid, setLibroid] = useState([]);
-  useEffect(() => {
-    async function cargarLista() {
-      try {
-        // GetOneData usa axios para conectarse a mi base de datos
-        const respuesta = await getOneData(tabla, libroKey); // con estas entradas 3 = link de versión a usar, 2 = el id sobre el único dato
-        const lista = respuesta.data;
-        setLibroid(lista);
-      } catch (error) {
-        console.error("Error al cargar la data: ", error)
-      }
-    }
-    cargarLista();
-  }, [])
-  console.log(Nombre, "Esto es Nombres Alternativos")
-  console.log(TipoID, "Esto es Tipo de Libro")
-  console.log(Genero, "Esto es Generos del libro")
-  console.log(Libroid, "Esto son los libros")
+  // console.log(Nombre, "Esto es Nombres Alternativos")
+  // console.log(TipoID, "Esto es Tipo de Libro")
+  // console.log(Genero, "Esto es Generos del libro")
 
   // Diccionario para buscar estrellas
   const Sestrellas = { 1: 1, 2: 2, 3: 3, 4: 4, 5: 5 }
@@ -123,6 +153,7 @@ export function Portal() {
 
   let imgur01 = "https://i.imgur.com/uQe1MyF.jpeg"
   // Crear un array de longitud 'entrada' y llenarlo con elementos <div>
+
   return (
 <div className="text-white">
 
@@ -130,22 +161,36 @@ export function Portal() {
     <div className="bg-red-500 border-4 border-fuchsia-500/75 rounded-md">
       
       <div className="px-2 py-1 text-green-200">
-        <span className={titulo}>Date a Bullet Novela Ligera en Español{Libroid.titulo} </span>
+        <label >
+          <input type="text" placeholder="Ingresar un título..." {...register("titulo", {require: true})}
+          className={titulo} required />{errors.titulo && <span>El título es necesario.</span>}
+        </label>
+
+        {/* <span className={titulo}>Date a Bullet Novela Ligera en Español{Libroid.titulo} </span> */}
       </div>
 
       <div className="flex flex-row space-x-6 content-center bg-gray-800 p-6">
         <div className="content-center w-1/3" >
-          <img className="box-border bg-green-500" src={Kurumi} alt="Descripción" />
+          {imageUrl ? (
+            <div>
+              <img className="box-border bg-green-500" src={imageUrl} alt="Imágen del libro" />
+            </div>
+        ) : <label >
+        <input type="text" placeholder="Ingrese el link de su imágen" {...register("perfil", {require: true})} className="" />
+      </label>
+      }
         </div>
-        <div className="basis-1/3 bg-emerald-700"> {/* Características */}
+        {/* sinopsis, publicacion, estado, idioma */}
+        <div className="basis-1/3  text-orange-600 bg-emerald-700"> {/* Características */}
           <span>Tipo:</span> <span>Novela Ligera</span><br />
-          <span>Capítulo:</span> <span>{Libroid.capitulo}</span><br />
+          <span>Capítulo:</span> <span>Libroid.capitulo</span><br />
           <span>Escritor:</span> <span>Yuichiro Higashide</span><br />
           <span>Ilustrador:</span> <span>NOCO</span><br />
           <span>Géneros:</span> <span>Mecha Sobrenatural Acción Escolar</span><br />
-          <span>Fecha de publicación:</span> <span>{Libroid.publicacion}</span><br />
-          <span>Última de publicación:</span> <span>{Libroid.ul_publicacion}</span><br />
-          <span>Estado:</span> <span>{Libroid.estado}</span><br />
+          <label className="block" > <span>Publicación: </span> <input type="text" placeholder="Fecha de Emisión" {...register("publicacion")} className="pl-1 rounded w-1/4 h-5"/></label> 
+          <span>Última de publicación:</span> <span>Libroid.ul_publicacion</span><br />
+          <label className="block" ><span>Estado:</span> <input type="text" placeholder="Estado del Libro" {...register("estado")} className="pl-1 rounded w-1/4 h-5"/> </label>
+          <label className="block"><span>Idioma:</span><input type="text" placeholder="Idioma del Libro" {...register("idioma")} className="pl-1 rounded w-1/4 h-5" /> </label>
           <span>Nombre Inglés:</span> <span>Date a Bullet</span><br />
           <span>Nombre Origen:</span> <span>デート・ア・ライブ</span><br />
           <span>Enlace Original:</span> <span>link sss</span><br />
@@ -154,10 +199,14 @@ export function Portal() {
           </div>
 
         </div>
-        <div className="basis-1/3 bg-emerald-600"> {/* Sinopsis */}
-          <span>Sinopsis:</span>
-          <p > {Libroid.sinopsis} Esta es una historia protagonizada por aquella chica que es conocida por todos como el peor espíritu, Kurumi Tokisaki. En cierta ocasión, se encontró con una joven con amnesia que la había llevado ante otras tantas chicas conocidas como Quasí-espíritus, las cuales estaban dispuestas a matarse entre sí. A partir de ahí, empieza la historia de Kurumi que no había sido contada hasta ahora.</p>
+        <div className="basis-1/3 flex flex-col text-cian-800 bg-emerald-600"> {/* Sinopsis */}
+          <label >
+            <span className="block">Sinopsis:</span>
+            <textarea type="text" placeholder="Ingrese la Sinopsis de su Libro." {...register('sinopsis')} className="text-cyan-800 w-full resize-y"></textarea>
+          </label>
+         
         </div>
+          {/* <p > {Libroid.sinopsis} Esta es una historia protagonizada por aquella chica que es conocida por todos como el peor espíritu, Kurumi Tokisaki. En cierta ocasión, se encontró con una joven con amnesia que la había llevado ante otras tantas chicas conocidas como Quasí-espíritus, las cuales estaban dispuestas a matarse entre sí. A partir de ahí, empieza la historia de Kurumi que no había sido contada hasta ahora.</p> */}
       </div>
       
       <div className="bg-yellow-800 text-lg rounded-lg flex flex-col w-1/2 m-auto h-auto justify-center content-center space-x-2">
@@ -186,12 +235,3 @@ export function Portal() {
 </div>
   )
 }
-
-
-
-
-
-
-
-
-

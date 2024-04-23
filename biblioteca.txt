@@ -109,6 +109,9 @@ INSTALLED_APPS = [      ## Agregar instalaciones y la startapp creada
 REST_FRAMEWORK = {      ## Agregar al final de settins como rest_framework
 		"DEFAULT_SCHEMA_CLASS" : 'rest_framework.schemas.coreapi.AutoSchema',
 }
+Instalaciones React _ FrontEnd
+npm install react-hook-form
+
 
 
 
@@ -120,4 +123,38 @@ Delete{
         ISBN 10: 0316272248
         ISBN 13: 9780316272247
     }
+}
+
+class LibroSerializer(serializers.ModelSerializer):
+    autores = AutorSerializer(many=True, read_only=True)
+    
+    class Meta:
+        model = Libro
+        fields = '__all__'
+
+{
+    "id": 1,
+    "titulo": "Título del libro",
+    "perfil": "URL de la imagen del libro",
+    "sinopsis": "Sinopsis del libro",
+    "capitulo": "Capítulo del libro",
+    "publicacion": "2024-04-25",
+    "ul_publicacion": "2024-04-25T12:00:00Z",
+    "estado": "Estado del libro",
+    "autores": [
+        {
+            "id": 1,
+            "nombre": "Nombre del autor",
+            "apellido": "Apellido del autor",
+            "nacimiento": "1990-01-01",
+            "perfil": "URL de la imagen del autor"
+        },
+        {
+            "id": 2,
+            "nombre": "Nombre del segundo autor",
+            "apellido": "Apellido del segundo autor",
+            "nacimiento": "1995-01-01",
+            "perfil": "URL de la imagen del segundo autor"
+        }
+    ]
 }

@@ -14,7 +14,10 @@ const VERSIONES = {
   7: "v07-librogenero",
   8: "v08-puntaje",
   9: "v09-nombre",
-  10: "v10-libroautor"
+  10: "v10-libroautor",
+  11: "v11-librosuper",
+  12: "v12-generofilter",
+  13: "v13-nombrefilter",
 }
 
 const createAxiosInstance = (version) => {
@@ -30,3 +33,4 @@ export const getAllData = (version)           => createAxiosInstance(version).ge
 export const createData = (version, data)     => createAxiosInstance(version).post("/", data);
 export const getOneData = (version, id)       => createAxiosInstance(version).get("/"+id+"/");
 export const updateData = (version, id, data) => createAxiosInstance(version).put("/"+id+"/", data);
+export const deleteData = (version, id)       => createAxiosInstance(version).delete("/"+id);

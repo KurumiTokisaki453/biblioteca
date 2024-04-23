@@ -2,52 +2,59 @@
 from rest_framework import serializers
 from .models import *
 
-class UsuarioSerializer(serializers.ModelSerializer):
+class UsuarioSerializer(serializers.ModelSerializer): # Tabla maestra sobre los usuarios
     class Meta:
         model = Usuario
         fields = '__all__'
 
-class AutorSerializer(serializers.ModelSerializer):       
+class AutorSerializer(serializers.ModelSerializer): # Tabla maestra sobre los Autores disponibles
     class Meta:
         model = Autor        
-        fields = '__all__'   
-
-class LibroSerializer(serializers.ModelSerializer):       
-    class Meta:
-        model = Libro        
-        fields = '__all__'   
-
-class TipoSerializer(serializers.ModelSerializer):        
+        fields = '__all__'
+        
+class TipoSerializer(serializers.ModelSerializer): # Tabla maestra sobre Tipos disponibles (anime, manga, novela ligera, etc)
     class Meta:
         model = Tipo
-        fields = '__all__'   
+        fields = '__all__'
 
-class LibrotipoSerializer(serializers.ModelSerializer):   
+class LibrotipoSerializer(serializers.ModelSerializer): # Relación (desconocido) (Libros x Tipo)
     class Meta:
         model = Librotipo    
-        fields = '__all__'   
+        fields = '__all__'
 
-class GeneroSerializer(serializers.ModelSerializer):      
+class GeneroSerializer(serializers.ModelSerializer): # Tabla maestra Generos disponibles
     class Meta:
         model = Genero       
-        fields = '__all__'   
+        fields = '__all__'
 
-class LibrogeneroSerializer(serializers.ModelSerializer): 
+class LibrogeneroSerializer(serializers.ModelSerializer): # Relación (desconocida) (LibroxGeneros)
     class Meta:
         model = LibroGenero  
-        fields = '__all__'   
+        fields = '__all__'
 
-class PuntajeSerializer(serializers.ModelSerializer):     
+class PuntajeSerializer(serializers.ModelSerializer): # Puntaje sobre un libro
     class Meta:
         model = Puntaje      
-        fields = '__all__'   
+        fields = '__all__'
 
-class NombreSerializer(serializers.ModelSerializer):      
+class NombreSerializer(serializers.ModelSerializer): # Nombres alternativos de mis libros     
     class Meta:
         model = Nombre       
-        fields = '__all__'   
+        fields = '__all__'
 
-class LibroautorSerializer(serializers.ModelSerializer):  
+class LibroautorSerializer(serializers.ModelSerializer): # Relación muchos a muchos (LibroxAutor)
     class Meta:
         model = LibroAutor   
-        fields = '__all__'   
+        fields = '__all__'
+
+class LibroSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Libro
+        fields = '__all__'
+
+class LibroSuperSerializer(serializers.ModelSerializer):
+    autor = AutorSerializer()
+    libro = LibroSerializer()
+    class Meta:
+        model = LibroAutor
+        fields = '__all__'
