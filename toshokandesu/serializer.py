@@ -18,8 +18,9 @@ class TipoSerializer(serializers.ModelSerializer): # Tabla maestra sobre Tipos d
         fields = '__all__'
 
 class LibrotipoSerializer(serializers.ModelSerializer): # Relación (desconocido) (Libros x Tipo)
+    tipo_nombre = serializers.ReadOnlyField(source='tipo.nombre')
     class Meta:
-        model = Librotipo    
+        model = Librotipo
         fields = '__all__'
 
 class GeneroSerializer(serializers.ModelSerializer): # Tabla maestra Generos disponibles
@@ -28,6 +29,7 @@ class GeneroSerializer(serializers.ModelSerializer): # Tabla maestra Generos dis
         fields = '__all__'
 
 class LibrogeneroSerializer(serializers.ModelSerializer): # Relación (desconocida) (LibroxGeneros)
+    Ngenero = serializers.ReadOnlyField(source='genero.nombre')
     class Meta:
         model = LibroGenero  
         fields = '__all__'
