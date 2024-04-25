@@ -19,7 +19,7 @@ const VERSIONES = {
   8: 8,   // "v08-puntaje",
   9: 9,   // "v09-nombre",
   10: 10, // "v10-libroautor",
-  11: 11, // "v11-librosuper",
+  11: 11, // "v11-librocapitulo",
   12: 12, // "v12-generofilter",
   13: 13, // "v13-nombresfilter",
 }
@@ -32,9 +32,10 @@ export function FPortada() {
   } = useForm();
   const navegar = useNavigate()
   const paramet = useParams()
-  let num = 2;
   const [imageUrl, setImageUrl] = useState('');
   const [TiposName, setTiposName] = useState([]);
+  const [AutorLbro, setAutorLbro] = useState([]);
+
   useEffect(() => {   // Cargar los nombres de la base de datos Tipo
     async function cargarNameTipo() {
       try {
@@ -61,16 +62,24 @@ export function FPortada() {
       setValue('tipo_libro', libro)
       setValue('tipo_tipo', tipo)
       setValue('tipo_nombre', tipo_nombre)
-      console.log('Contenido del libro: ', libro, tipo, tipo_nombre)
+      const {data: {id, autor_nombre, descripcion}} = await getOneData(VERSIONES[10], 2);
+      const autoresXlibro = [{id, autor_nombre, descripcion}];
+      console.log(autoresXlibro, "Esto es autoresxLibro");
+      setAutorLbro([autoresXlibro])
+      setValue('autorlibro_descripcion', descripcion);
+      setValue('autorlibro_autor', autor_nombre);
+      console.log("Esto es de AutorLbro: ",AutorLbro.descripcion, AutorLbro)
+      // console.log('Contenido del libro: ', libro, tipo, tipo_nombre)
     }
     loadGetTipo();
   }, [])
   const onSubmit = handleSubmit(async data => {
+    console.log(data, "Esto es la data original a enviar")
     if (paramet.id) {
       console.log(paramet.id, data, "Esto es la data de onSubmit")
     } else {
       const LibroData = {titulo: data.titulo, perfil: data.perfil, sinopsis: data.sinopsis, publicacion: data.publicacion, estado: data.estado, idioma: data.idioma};
-      console.log(LibroData, "eSTO ES LA DAta a enviar")
+      // console.log(LibroData, "eSTO ES LA DAta de libro a enviar")
       // await updateData(VERSIONES[3], num, LibroData);
       // await createData(VERSIONES[3], data);
     }
@@ -95,21 +104,6 @@ export function FPortada() {
       }
     }
     cargarNombre();
-  }, [])
-
-  const [TipoID, setTipoID] = useState([]);
-  useEffect(() => {
-    async function cargarTipo() {
-      try {
-        // GetOneData usa axios para conectarse a mi base de datos
-        const respuesta = await getOneData(VERSIONES[5], VERSIONES[1]); // con estas entradas 3 = link de versión a usar, 2 = el id sobre el único dato
-        const lista = respuesta.data;
-        setTipoID(lista);
-      } catch (error) {
-        console.error("Error al cargar la data: ", error)
-      }
-    }
-    cargarTipo();
   }, [])
 
   const [Genero, setGenero] = useState([]);
@@ -190,9 +184,14 @@ export function FPortada() {
         </div>
         {/* sinopsis, publicacion, estado, idioma */}
         <div className="col-span-2 basis-1/3  text-orange-600 bg-emerald-700"> {/* Características */}
-          <div className="block"> <span>Tipo:</span> <span>Novela Ligera</span> </div>
-          <div className="block" > <span>Capítulo:</span> <span>Libroid.capitulo</span> </div>
+          <div className="block"> <span className="mr-1" >Tipo:</span> 
+            <select {...register('id_tipo')} className="text-black mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+              {TiposName.map((tipo) => ( <option key={tipo.id} value={tipo.id}>{tipo.nombre}</option> ))}
+            </select>
+          </div>
+          <div className="block" > <span>Capítulos:</span> <span>Libroid.capitulo</span> </div>
           <span>Escritor:</span> <span>Yuichiro Higashide</span>
+          {/* {AutorLbro.map((index) => (<label key={index.id} className="block"> <span >{index.descripcion}</span> <span>{index.autor_nombre}</span> </label> ))} */}
           <div className="block" ><span>Ilustrador:</span> <span>NOCO</span></div>
           <div className="block" > <span>Géneros:</span> <span>Mecha Sobrenatural Acción Escolar</span> </div>
           <div className="block" > <span>Última de publicación:</span> <span>Libroid.ul_publicacion</span> </div>
@@ -227,16 +226,6 @@ export function FPortada() {
           <span className="cursor-pointer hover:text-blue-500" title="Actualización: 10-10-2024"  >Último Capítulo: 350/474</span>
         <span>Web: <a className="text-pink-300 hover:text-sky-400 after:content-['_↗'] ..." href="https://novelasligera.com/" target="_blank">novelasligera</a></span> </div>
       </div>
-      {/* ---------------------------- */}
-    <div>
-      <select {...register('hola')} className="text-black mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm">
-        {TiposName.map((tipo) => (
-          <option key={tipo.id} value={tipo.id}>{tipo.nombre}</option>
-        ))}
-      </select>
-    </div>
-{/* }}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}} */}
-      {/* Relacionados */}
       <div className="col-span-3 px-center justify-center content-center bg-orange-500 ">
         <div className="text-gray-600 ml-10 text-lg">
           <span className=" bg-gray-100  ">Relacionados: </span>

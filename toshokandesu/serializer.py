@@ -45,6 +45,7 @@ class NombreSerializer(serializers.ModelSerializer): # Nombres alternativos de m
         fields = '__all__'
 
 class LibroautorSerializer(serializers.ModelSerializer): # Relación muchos a muchos (LibroxAutor)
+    autor_nombre = serializers.ReadOnlyField(source='autor.nombre')
     class Meta:
         model = LibroAutor   
         fields = '__all__'
@@ -59,4 +60,9 @@ class LibroSuperSerializer(serializers.ModelSerializer):
     libro = LibroSerializer()
     class Meta:
         model = LibroAutor
+        fields = '__all__'
+
+class LibroCapituloSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LibroCapitulo
         fields = '__all__'

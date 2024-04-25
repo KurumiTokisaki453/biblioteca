@@ -33,8 +33,10 @@ nombre.register(r"toshokandesu", views.NombreView, "nombre")
 libroautor = routers.DefaultRouter()
 libroautor.register(r"toshokandesu", views.LibroautorView, "libroautor")
 
-librosuper = routers.DefaultRouter()
-librosuper.register(r"toshokandesu", views.LibroSuperView, "librosuper")
+# librosuper = routers.DefaultRouter()
+# librosuper.register(r"toshokandesu", views.LibroSuperView, "librosuper")
+librocapitulo = routers.DefaultRouter()
+librocapitulo.register(r"toshokandesu", views.LibroCapituloView, "librocapitulo")
 
 generosfiltrados = routers.DefaultRouter()
 generosfiltrados.register(r"toshokandesu", views.LibrogeneroViewFiltro, "generofilter")
@@ -49,7 +51,8 @@ urlpatterns = [
     path("v08-puntaje/", include(puntaje.urls)),
     path("v09-nombre/", include(nombre.urls)),
     path("v10-libroautor/", include(libroautor.urls)),
-    path("v11-librosuper/", include(librosuper.urls)),
+    # path("v11-librosuper/", include(librosuper.urls)),
+    path("v11-librocapitulo/", include(librocapitulo.urls)),
     path("v12-generofilter/toshokandesu/<int:libro_id>/", views.LibrogeneroViewFiltro.as_view({'get': 'list'})),
     path("v13-nombrefilter/toshokandesu/<int:libro_id>/", views.LibroNombreViewFiltro.as_view({'get': 'list'})),
     path("docs/", include_docs_urls(title="toshokandesu API")),      

@@ -33,6 +33,9 @@ class NombreView(viewsets.ModelViewSet):
 class LibroautorView(viewsets.ModelViewSet):
     serializer_class = LibroautorSerializer
     queryset = LibroAutor.objects.all()
+class LibroCapituloView(viewsets.ModelViewSet):
+    serializer_class = LibroCapituloSerializer
+    queryset = LibroCapitulo.objects.all()
 class LibroSuperView(viewsets.ModelViewSet):
     serializer_class = LibroSuperSerializer
     queryset = LibroAutor.objects.all()

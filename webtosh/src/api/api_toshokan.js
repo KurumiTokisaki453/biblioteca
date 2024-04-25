@@ -15,7 +15,7 @@ const VERSIONES = {
   8: "v08-puntaje",
   9: "v09-nombre",
   10: "v10-libroautor",
-  11: "v11-librosuper",
+  11: "v11-librocapitulo",
   12: "v12-generofilter",
   13: "v13-nombrefilter",
 }
