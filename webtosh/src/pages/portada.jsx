@@ -20,6 +20,9 @@ const VERSIONES = {
   11: 11, // "v11-librosuper",
   12: 12, // "v12-generofilter",
   13: 13, // "v13-nombresfilter",
+  14: 14,
+  15: 15,
+  16: 16,
 }
 export function Portal() {
   let tabla = 3;
@@ -83,10 +86,10 @@ export function Portal() {
     }
     cargarLista();
   }, [])
-  console.log(Nombre, "Esto es Nombres Alternativos")
-  console.log(TipoID, "Esto es Tipo de Libro")
-  console.log(Genero, "Esto es Generos del libro")
-  console.log(Libroid, "Esto son los libros")
+  // console.log(Nombre, "Esto es Nombres Alternativos")
+  // console.log(TipoID, "Esto es Tipo de Libro")
+  // console.log(Genero, "Esto es Generos del libro")
+  // console.log(Libroid, "Esto son los libros")
 
   // Diccionario para buscar estrellas
   const Sestrellas = { 1: 1, 2: 2, 3: 3, 4: 4, 5: 5 }

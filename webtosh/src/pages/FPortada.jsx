@@ -1,4 +1,6 @@
 import Kurumi from "../img/tokisaki.jpg"
+import { Iconsuma01 } from "../assets/suma.jsx"
+import  MoreIcon  from '../assets/more.svg'
 import Decimal from 'decimal.js';
 import {DecimalStart, Start, StartVoid } from "../assets/start.jsx"
 import { useEffect, useState, version } from 'react'
@@ -8,7 +10,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 
 import { calcularStart } from "../Componentes/calificacion.jsx"
 // const Dwecimal = require('decimal.js');
-const VERSIONES = {
+const VERSIONES = {  // Link de django
   1: 1,   // "v01-usuario",
   2: 2,   // "v02-autor",
   3: 3,   // "v03-libro",
@@ -22,6 +24,10 @@ const VERSIONES = {
   11: 11, // "v11-librocapitulo",
   12: 12, // "v12-generofilter",
   13: 13, // "v13-nombresfilter",
+  14: 14, // "v14-librotipo",
+  15: 15, // "v15-libropuntaje",
+  16: 16, // "v16-autorfilter",
+  17: 17, // "v17-capitulofilter",
 }
 export function FPortada() {
   const {
@@ -33,8 +39,9 @@ export function FPortada() {
   const navegar = useNavigate()
   const paramet = useParams()
   const [imageUrl, setImageUrl] = useState('');
-  const [TiposName, setTiposName] = useState([]);
-  const [AutorLbro, setAutorLbro] = useState([]);
+  const [TiposName,setTiposName] = useState([]);
+
+  const [Libro_Generos, setLibro_Generos] = useState([]); const [Libro_Nombres, setLibro_Nombres] = useState([]); const [Libro_Tipos, setLibro_Tipos] = useState([]); const [Libro_Autores, setLibro_Autores] = useState([]); const [Libro_Capitulos, setLibro_Capitulos] = useState([]);
 
   useEffect(() => {   // Cargar los nombres de la base de datos Tipo
     async function cargarNameTipo() {
@@ -50,81 +57,79 @@ export function FPortada() {
     cargarNameTipo();
   }, [])
   useEffect(() => {
-    async function loadGetLibro() {
+    async function loadGetLibro() {  // obtener tabla libro por tarjeta --principal--...
       // if (true){
         const {data : {titulo, perfil, sinopsis, publicacion, estado, idioma},} = await getOneData(VERSIONES[3], 4); // Contrario a 4 es paramet.id
         // Settear los valores de la data (guardarlo hacía onsubmit, handlesubmit, data...)
         setValue('titulo', titulo); setValue('perfil', perfil); setImageUrl(perfil); setValue('sinopsis', sinopsis); setValue('publicacion',publicacion); setValue('estado',estado); setValue('idioma',idioma);
       }
-      loadGetLibro();
-    async function loadGetTipo() {
-      const {data: {libro, tipo, tipo_nombre}} = await getOneData(VERSIONES[5], 1);
-      setValue('tipo_libro', libro)
-      setValue('tipo_tipo', tipo)
-      setValue('tipo_nombre', tipo_nombre)
-      const {data: {id, autor_nombre, descripcion}} = await getOneData(VERSIONES[10], 2);
-      const autoresXlibro = [{id, autor_nombre, descripcion}];
-      console.log(autoresXlibro, "Esto es autoresxLibro");
-      setAutorLbro([autoresXlibro])
-      setValue('autorlibro_descripcion', descripcion);
-      setValue('autorlibro_autor', autor_nombre);
-      console.log("Esto es de AutorLbro: ",AutorLbro.descripcion, AutorLbro)
-      // console.log('Contenido del libro: ', libro, tipo, tipo_nombre)
+    loadGetLibro();
+    async function loadgetData_libro() { // obtener todos los datos a traves del --ID-- del Libro
+      const generos_libro = (await getOneData(VERSIONES[12], 4)).data;
+      setValue('generos', generos_libro); setLibro_Generos(generos_libro);
+      const nombresal_libro = (await getOneData(VERSIONES[13], 4)).data;
+      setValue('nombres', nombresal_libro); setLibro_Nombres(nombresal_libro);
+      const tipos_libro = (await getOneData(VERSIONES[14], 4)).data;
+      setValue('tipos', tipos_libro ); setLibro_Tipos(tipos_libro);
+      // const {data: {libro, tipo, tipo_nombre}} = await getOneData(VERSIONES[14], 4);
+      // setValue('tipo_libro', libro); setValue('tipo_tipo', tipo); setValue('tipo_nombre', tipo_nombre);
+
+      const autores_libro = (await getOneData(VERSIONES[16], 4)).data;
+      setValue('autores', autores_libro); setLibro_Autores(autores_libro);
+      const capitulo_libro = (await getOneData(VERSIONES[17], 4)).data;
+      setValue('capitulos', capitulo_libro); setLibro_Capitulos(capitulo_libro);
+
+      // setValue('autorlibro_descripcion', dataautoresXlibro.descripcion);
+      // setValue('autorlibro_autor', dataautoresXlibro.autor_nombre);
     }
-    loadGetTipo();
+    loadgetData_libro();
   }, [])
+
   const onSubmit = handleSubmit(async data => {
+    // console.log(data.autores[0], "Esto es la data sobre autores")
     console.log(data, "Esto es la data original a enviar")
     if (paramet.id) {
+      const LibroData = {titulo: data.titulo, perfil: data.perfil, sinopsis: data.sinopsis, publicacion: data.publicacion, estado: data.estado, idioma: data.idioma};
+      await updateData(VERSIONES[3], paramet.id, LibroData)
+      
+      // const GeneroData = {nombre: data.generos[0].nombre}
+      // await updateData(VERSIONES[6], paramet.id, GeneroData)
       console.log(paramet.id, data, "Esto es la data de onSubmit")
     } else {
-      const LibroData = {titulo: data.titulo, perfil: data.perfil, sinopsis: data.sinopsis, publicacion: data.publicacion, estado: data.estado, idioma: data.idioma};
+      // const LibroData = {titulo: data.titulo, perfil: data.perfil, sinopsis: data.sinopsis, publicacion: data.publicacion, estado: data.estado, idioma: data.idioma};
       // console.log(LibroData, "eSTO ES LA DAta de libro a enviar")
       // await updateData(VERSIONES[3], num, LibroData);
       // await createData(VERSIONES[3], data);
     }
   })
+  // let Array01;
+  // Array01.push(Libro_Autores.length)
+  // for (1,Libro_Autores.length,i++){
+  //   console.log(Array01[i]);
+  // };
+  let autoressobrelibro = Array.from({ length: Libro_Autores.length }, (_, index) => (
+    <label key={index} className="block" ><span>{Libro_Autores[index].descripcion}: </span>{Libro_Autores[index].autor_nombre} {Libro_Autores[index].autor_apellido}</label>
+  ));
 
+  const [NewAutoresNombre, setNewAutoresNombre] = useState('')
+  const [NewAutoresDescripcion, setNewAutoresDescripcion] = useState('')
 
+  const [NewAutores,setNewAutores] = useState([])
+  useEffect(()=>{
+    async function actualizarDataAutores(){
+
+    }
+  })
+  let Campos_autores = () => {
     
-    // console.log(useForm());
-
-    // console.log('Sinopsis:', sinopsis);
-
-  const [Nombre, setNombre] = useState([]);
-  useEffect(() => {
-    async function cargarNombre() {
-      try {
-        // GetOneData usa axios para conectarse a mi base de datos
-        const respuesta = await getOneData(VERSIONES[13], VERSIONES[4]); // con estas entradas 3 = link de versión a usar, 2 = el id sobre el único dato
-        const lista = respuesta.data;
-        setNombre(lista);
-      } catch (error) {
-        console.error("Error al cargar la data: ", error)
-      }
-    }
-    cargarNombre();
-  }, [])
-
-  const [Genero, setGenero] = useState([]);
-  useEffect(() => {
-    async function cargarGenero() {
-      try {
-        // GetOneData usa axios para conectarse a mi base de datos
-        const respuesta = await getOneData(VERSIONES[12], VERSIONES[4]); // con estas entradas 3 = link de versión a usar, 2 = el id sobre el único dato
-        const lista = respuesta.data;
-        setGenero(lista);
-      } catch (error) {
-        console.error("Error al cargar la data: ", error)
-      }
-    }
-    cargarGenero();
-  }, [])
+    console.log('Descripción:', descripcion);
+    console.log('Nombre:', nombre);
+  }
 
   // console.log(Nombre, "Esto es Nombres Alternativos")
   // console.log(TipoID, "Esto es Tipo de Libro")
   // console.log(Genero, "Esto es Generos del libro")
-
+  
   // Diccionario para buscar estrellas
   const Sestrellas = { 1: 1, 2: 2, 3: 3, 4: 4, 5: 5 }
   // start = Objeto decimal por Decimal(), calcular = Decimal primitivo
@@ -189,16 +194,16 @@ export function FPortada() {
               {TiposName.map((tipo) => ( <option key={tipo.id} value={tipo.id}>{tipo.nombre}</option> ))}
             </select>
           </div>
-          <div className="block" > <span>Capítulos:</span> <span>Libroid.capitulo</span> </div>
-          <span>Escritor:</span> <span>Yuichiro Higashide</span>
+          <label className="block" ><span>Capítulos:</span> <input type="text" placeholder="Capítulos del libro" {...register("capitulos[0].capitulo")} className="pl-1 rounded w-1/4 h-5"/> </label>
+          <label className="block" >{autoressobrelibro}</label><button onClick={Campos_autores} ><Iconsuma01 /></button>
+
           {/* {AutorLbro.map((index) => (<label key={index.id} className="block"> <span >{index.descripcion}</span> <span>{index.autor_nombre}</span> </label> ))} */}
-          <div className="block" ><span>Ilustrador:</span> <span>NOCO</span></div>
-          <div className="block" > <span>Géneros:</span> <span>Mecha Sobrenatural Acción Escolar</span> </div>
+          <div className="block" > <span>Géneros:</span> <span>Mecha Sobrenatural Acción Escolar</span>  </div>
           <div className="block" > <span>Última de publicación:</span> <span>Libroid.ul_publicacion</span> </div>
           <label className="block" > <span>Publicación: </span> <input type="text" placeholder="Fecha de Emisión" {...register("publicacion")} className="pl-1 rounded w-1/4 h-5"/></label> 
           <div className="block" > <span>Nombre Inglés:</span> <span>Date a Bullet</span> </div>
-            <label className="block" ><span>Estado:</span> <input type="text" placeholder="Estado del Libro" {...register("estado")} className="pl-1 rounded w-1/4 h-5"/> </label>
-            <label className="block"><span>Idioma:</span><input type="text" placeholder="Idioma del Libro" {...register("idioma")} className="pl-1 rounded w-1/4 h-5" /> </label>
+          <label className="block" ><span>Estado:</span> <input type="text" placeholder="Estado del Libro" {...register("estado")} className="pl-1 rounded w-1/4 h-5"/> </label>
+          <label className="block"><span>Idioma:</span><input type="text" placeholder="Idioma del Libro" {...register("idioma")} className="pl-1 rounded w-1/4 h-5" /> </label>
           <div className="block" > <span>Nombre Origen:</span> <span>デート・ア・ライブ</span> </div>
           <div className="block" > <span>Enlace Original:</span> <span>link sss</span> </div>
           <div className="flex"><span className="pr-1">Puntaje:</span>

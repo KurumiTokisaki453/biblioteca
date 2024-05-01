@@ -1,5 +1,5 @@
-from rest_framework import viewsets
-from rest_framework.response import Response
+from rest_framework import viewsets #, generics
+# from rest_framework.response import Response
 from .serializer import *    
 from .models import *        
 
@@ -51,6 +51,26 @@ class LibroNombreViewFiltro(viewsets.ModelViewSet):
         libro = self.kwargs.get('libro_id')  # Obtener el libro_id de los parámetros de la URL
         queryset = Nombre.objects.filter(libro_id=libro)
         return queryset
+class LibrotipoViewFiltro(viewsets.ModelViewSet):
+    serializer_class = LibrotipoSerializer
+    def get_queryset(self):
+        libro = self.kwargs.get('libro_id')
+        return Librotipo.objects.filter(libro_id=libro)
+class LibroPuntajesViewFiltro(viewsets.ModelViewSet):
+    serializer_class = LibropuntajeSerializer
+    def get_queryset(self):
+        libro = self.kwargs.get('libro_id')
+        return Puntaje.objects.filter(libro_id=libro)
+class LibroAutorViewFiltro(viewsets.ModelViewSet):
+    serializer_class = LibroautorSerializer
+    def get_queryset(self):
+        libro = self.kwargs.get('libro_id')
+        return LibroAutor.objects.filter(libro_id=libro)
+class LibroCapituloViewFiltro(viewsets.ModelViewSet):
+    serializer_class = LibroCapituloSerializer
+    def get_queryset(self):
+        libro = self.kwargs.get('libro_id')
+        return LibroCapitulo.objects.filter(libro_id=libro)
 
 
 

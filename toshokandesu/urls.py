@@ -5,41 +5,29 @@ from toshokandesu import views
 
 usuario = routers.DefaultRouter()
 usuario.register(r"toshokandesu", views.UsuarioView, "usuario")
-
 autor = routers.DefaultRouter()
 autor.register(r"toshokandesu", views.AutorView, "autor") 
-
 libro = routers.DefaultRouter()
 libro.register(r"toshokandesu", views.LibroView, "libro") 
-
 tipo = routers.DefaultRouter()
-tipo.register(r"toshokandesu", views.TipoView, "tipo")    
-
+tipo.register(r"toshokandesu", views.TipoView, "tipo")
 librotipo = routers.DefaultRouter()
 librotipo.register(r"toshokandesu", views.LibrotipoView, "librotipo")
-
 genero = routers.DefaultRouter()
 genero.register(r"toshokandesu", views.GeneroView, "genero")
-
 librogenero = routers.DefaultRouter()
 librogenero.register(r"toshokandesu", views.LibrogeneroView, "librogenero")
-
 puntaje = routers.DefaultRouter()
-puntaje.register(r"toshokandesu", views.PuntajeView, "puntaje")      
-
+puntaje.register(r"toshokandesu", views.PuntajeView, "puntaje")
 nombre = routers.DefaultRouter()
 nombre.register(r"toshokandesu", views.NombreView, "nombre")
-
 libroautor = routers.DefaultRouter()
 libroautor.register(r"toshokandesu", views.LibroautorView, "libroautor")
-
 # librosuper = routers.DefaultRouter()
 # librosuper.register(r"toshokandesu", views.LibroSuperView, "librosuper")
 librocapitulo = routers.DefaultRouter()
 librocapitulo.register(r"toshokandesu", views.LibroCapituloView, "librocapitulo")
 
-generosfiltrados = routers.DefaultRouter()
-generosfiltrados.register(r"toshokandesu", views.LibrogeneroViewFiltro, "generofilter")
 urlpatterns = [
     path("v01-usuario/", include(usuario.urls)),
     path("v02-autor/", include(autor.urls)),
@@ -55,5 +43,9 @@ urlpatterns = [
     path("v11-librocapitulo/", include(librocapitulo.urls)),
     path("v12-generofilter/toshokandesu/<int:libro_id>/", views.LibrogeneroViewFiltro.as_view({'get': 'list'})),
     path("v13-nombrefilter/toshokandesu/<int:libro_id>/", views.LibroNombreViewFiltro.as_view({'get': 'list'})),
+    path("v14-tipofilter/toshokandesu/<int:libro_id>/", views.LibrotipoViewFiltro.as_view({'get': 'list'})),
+    path("v15-puntajefilter/toshokandesu/<int:libro_id>/", views.LibroPuntajesViewFiltro.as_view({'get': 'list'})),
+    path("v16-autorfilter/toshokandesu/<int:libro_id>/", views.LibroAutorViewFiltro.as_view({'get': 'list'})),
+    path("v17-capitulofilter/toshokandesu/<int:libro_id>/", views.LibroCapituloViewFiltro.as_view({'get': 'list'})),
     path("docs/", include_docs_urls(title="toshokandesu API")),      
 ]

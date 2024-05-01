@@ -1,7 +1,7 @@
 import axios from "axios";
 // http://192.168.1.10:8000 // movil, red abierta...
 const BASE_URL = "http://127.0.0.1:8000/";
-const PROJECT_NAME = "biblioteca";
+// const PROJECT_NAME = "biblioteca"; // debría servir... pero no me sirve por ahora
 const APP_NAME = "toshokandesu";
 
 const VERSIONES = {
@@ -18,6 +18,10 @@ const VERSIONES = {
   11: "v11-librocapitulo",
   12: "v12-generofilter",
   13: "v13-nombrefilter",
+  14: "v14-tipofilter",
+  15: "v15-puntajefilter",
+  16: "v16-autorfilter",
+  17: "v17-capitulofilter",
 }
 
 const createAxiosInstance = (version) => {

@@ -40,7 +40,7 @@ class Tipo(models.Model):
         return f"{self.nombre}"
     
 class Librotipo(models.Model):
-    libro = models.ForeignKey(Libro, on_delete=models.CASCADE)
+    libro = models.OneToOneField(Libro, on_delete=models.CASCADE)
     tipo = models.ForeignKey(Tipo, on_delete=models.CASCADE)
     def __str__(self):
         return self.libro.titulo
