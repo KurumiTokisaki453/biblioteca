@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     # "127.0.0.1",
-    # "192.168.1.10",
+    "192.168.1.3",
     # 'http://192.168.1.10:8000',   
 ]
 
@@ -145,8 +145,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = [        ## Autorizar conección con corsheader?
     "http://localhost:5173", # Link por defecto de React (Vite), descomentar en el paso 30
-    # "https://localhost:8000", # Link por defecto de django.
-    # "https://127.0.0.1:9000",
+    # "http://192.168.1.3:5173", # Link para red Local
 ]
     
 REST_FRAMEWORK = {      ## Agregar al final de settins como rest_framework

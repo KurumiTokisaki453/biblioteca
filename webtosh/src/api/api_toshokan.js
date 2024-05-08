@@ -1,5 +1,5 @@
 import axios from "axios";
-// http://192.168.1.10:8000 // movil, red abierta...
+// const BASE_URL = "http://192.168.1.3:8000" // movil, red abierta...
 const BASE_URL = "http://127.0.0.1:8000/";
 // const PROJECT_NAME = "biblioteca"; // debría servir... pero no me sirve por ahora
 const APP_NAME = "toshokandesu";

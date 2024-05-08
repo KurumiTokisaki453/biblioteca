@@ -90,14 +90,14 @@ export function FPortada() {
     console.log(data, "Esto es la data original a enviar")
     if (paramet.id) {
       const LibroData = {titulo: data.titulo, perfil: data.perfil, sinopsis: data.sinopsis, publicacion: data.publicacion, estado: data.estado, idioma: data.idioma};
-      await updateData(VERSIONES[3], paramet.id, LibroData)
+      // await updateData(VERSIONES[3], paramet.id, LibroData)
       
       // const GeneroData = {nombre: data.generos[0].nombre}
       // await updateData(VERSIONES[6], paramet.id, GeneroData)
       console.log(paramet.id, data, "Esto es la data de onSubmit")
     } else {
-      // const LibroData = {titulo: data.titulo, perfil: data.perfil, sinopsis: data.sinopsis, publicacion: data.publicacion, estado: data.estado, idioma: data.idioma};
-      // console.log(LibroData, "eSTO ES LA DAta de libro a enviar")
+      const LibroData = {titulo: data.titulo, perfil: data.perfil, sinopsis: data.sinopsis, publicacion: data.publicacion, estado: data.estado, idioma: data.idioma};
+      console.log(LibroData, "eSTO ES LA DAta de libro a enviar")
       // await updateData(VERSIONES[3], num, LibroData);
       // await createData(VERSIONES[3], data);
     }
@@ -117,7 +117,6 @@ export function FPortada() {
   const [NewAutores,setNewAutores] = useState([])
   useEffect(()=>{
     async function actualizarDataAutores(){
-
     }
   })
   let Campos_autores = () => {

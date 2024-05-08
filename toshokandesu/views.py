@@ -11,7 +11,7 @@ class AutorView(viewsets.ModelViewSet):
     queryset = Autor.objects.all()
 class LibroView(viewsets.ModelViewSet):
     serializer_class = LibroSerializer
-    queryset = Libro.objects.all()
+    queryset = Libro.objects.all().order_by('id')
 class TipoView(viewsets.ModelViewSet):
     serializer_class = TipoSerializer
     queryset = Tipo.objects.all()

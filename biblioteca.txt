@@ -7,6 +7,18 @@ Modelo Base de Datos:
 Libro(M)==id, titulo, fk_autor, editorial, fecha_publicacion, isbn, descripcion, imagen, estado, idioma, categoria, edicion, ubicacion, ultima_actualización
 Autor(M)==id, nombre, apellido, fecha_nacimiento, libros_publicados, 
 
+Pages{
+    Home: "Muestra todos los libros con su imágen y título";
+    Filtrador: "Muestra los libro a buscar (según: género, título, nombre alternativo, tipo, abecedario(titulo))
+    Card: "Muestra todo el contenido del libro con sus características, imágen, sinopsis, etc"
+    PostCard: "Un form para crear nuevas tarjetas (libros) desde 0"
+    PutCard: "Un form para editar libros y actualizarlo de haber cambios"
+    Usuario: "Pagina para el usurario y sus cosas..."
+    autor: "Pagina para el autor"
+    Generos: "Crear o editar los generos"
+    Titulo: "Crear o editar títulos"
+}
+
 models.py:
 from django.db import models
 # from django.contrib.auth.models import AbstractUser

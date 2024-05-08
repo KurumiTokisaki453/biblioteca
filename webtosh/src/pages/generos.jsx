@@ -28,7 +28,7 @@ const EditableElement = ({element, onConfirm, onCancel }) => {
     className="w-full px-3 py-2 border rounded-md text-black"
     onChange={(e) => setIsEditing(e.target.value)}
   />
-  <div className="flex w-full bg-emerald-400 justify-center">
+  <div className="flex w-full justify-center">
     <button onClick={ConfirmEdit} className="mr-2 w-full bg-green-500 px-4 py-2 rounded-2xl hover:bg-green-600"> Guardar </button>
     <button onClick={onCancel} className="w-full bg-orange-600 px-4 py-2 rounded-2xl hover:bg-orange-700"> Cancelar </button>
   </div>
@@ -142,8 +142,8 @@ export const Generos = () => {
   };
 
   return (
-<div className=" grid bg-gray-800 py-5 px-10 text-white"> {/* crear marco 10 columnas en grid */}
-  <div className="bg-indigo-800 border-4 max-w-screen-2xl min-w-full border-fuchsia-500/75 rounded-md">
+<div className=" grid bg-gray-800 px-10 text-white py-6"> {/* crear marco 10 columnas en grid */}
+  <div className="bg-indigo-800 border-4 max-w-screen-2xl min-w-full border-fuchsia-500/75 px-6 py-4 rounded-md">
     <div className=" bg-indigo-600 flex flex-wrap gap-4 px-4 py-2 rounded-md mb-4"><h2 className=''>Todos los Géneros creados:</h2> </div>
       <div className='flex flex-wrap gap-4'>
       {showConfirmation && (
