@@ -99,8 +99,6 @@ export const Generos = () => {
     } catch (error) {
       console.error('Error al enviar datos:', error);
     }
-
-    // Aquí puedes manejar la lógica para enviar los datos al servidor
   };
 
   const [showConfirmation, setShowConfirmation] = useState(false);

@@ -144,8 +144,8 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = [        ## Autorizar conección con corsheader?
-    "http://localhost:5173", # Link por defecto de React (Vite), descomentar en el paso 30
-    # "http://192.168.1.3:5173", # Link para red Local
+    # "http://localhost:5173", # Link por defecto de React (Vite), descomentar en el paso 30
+    "http://192.168.1.3:5173", # Link para red Local
 ]
     
 REST_FRAMEWORK = {      ## Agregar al final de settins como rest_framework
