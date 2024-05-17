@@ -63,12 +63,13 @@ export const Generos = () => {
   // Estado para almacenar los campos de entrada adicionales
   const [camposAdicionales, setCamposAdicionales] = useState([{ nombre: ''}]);
   const [AllGender, setAllGender] = useState([]);
+
+  async function GetAllGender() {
+    const GenerosData = (await getAllData(6)).data;
+    console.log(GenerosData, "Estos son los generos")
+    setAllGender(GenerosData);
+  }
   useEffect(()=>{
-    async function GetAllGender() {
-      const GenerosData = (await getAllData(6)).data;
-      console.log(GenerosData, "Estos son los generos")
-      setAllGender(GenerosData);
-    }
     GetAllGender();
   },[])
 
@@ -115,7 +116,7 @@ export const Generos = () => {
     await updateData(6, selectedKey.id, primarykey)
     setShowEdit(false);
     setSelectedKey(null);
-    window.location.reload();
+    // GetAllGender();
   };
   
   const handleCancelEdit = () => {
@@ -130,7 +131,7 @@ export const Generos = () => {
   const DeleteGender = async () => {
     console.log(selectedKey, "Esto es la llave primaria");
     console.log(selectedKey.id, "Ahora eliminaremos según el id")
-    await deleteData(6, selectedKey);
+    await deleteData(6, selectedKey.id);
     window.location.reload();
   };
 

@@ -16,6 +16,7 @@ class Autor(models.Model):
     apellido = models.CharField(max_length=100, blank=True,null=True)
     nacimiento = models.DateField(blank=True, null=True)
     perfil = models.TextField(blank=True, null=True)    ##Imagen
+    # ubicacion = models.TextField(blank=True, null=True)
     def __str__(self):
         return f"{self.nombre}"
 
@@ -30,7 +31,7 @@ class Libro(models.Model):
         return self.titulo
 
 class LibroCapitulo(models.Model):
-    libro = models.ForeignKey(Libro, on_delete=models.CASCADE)
+    libro = models.ForeignKey(Libro, on_delete=models.CASCADE) # unico...
     capitulo = models.FloatField(blank=True, null=True)
     volumen = models.FloatField(blank=True, null=True)
 

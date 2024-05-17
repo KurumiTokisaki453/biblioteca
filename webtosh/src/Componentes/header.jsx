@@ -28,6 +28,7 @@ export function Header () {
         <Link className="bg-lime-500 px-1 " to="gender" > <span>Gender</span> </Link>
         <Link className="bg-lime-500 px-1 " to="type" > <span>Type</span> </Link>
         <Link className="bg-lime-500 px-1 " to="testing" > <div className="bg-black">Testing</div> </Link>
+        <Link className="bg-lime-500 px-1 " to="formcard" > <div className="bg-black">FormCard</div> </Link>
       </div>
   </div>
 

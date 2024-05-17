@@ -23,7 +23,7 @@ class TipoSerializer(serializers.ModelSerializer): # Tabla maestra sobre Tipos d
         fields = '__all__'
 
 class LibrotipoSerializer(serializers.ModelSerializer): # Relación (desconocido) (Libros x Tipo)
-    tipo_nombre = serializers.ReadOnlyField(source='tipo.nombre')
+    nombre = serializers.ReadOnlyField(source='tipo.nombre')
     class Meta:
         model = Librotipo
         fields = '__all__'
